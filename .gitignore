@@ -11,3 +11,6 @@ node_modules/
 .DS_Store
 **/.DS_Store
 Thumbs.db
+
+# Pages functions cu (khong dung o mo hinh Workers Static Assets)
+functions/

@@ -1,8 +1,23 @@
-// functions/plist.js — Cloudflare Pages Function
-// Thay cho plist.php / server.php. Route: https://sign.zsign.app/plist
-// Nhận param thường (KHÔNG mã hoá): bundleid, name, version, fetchurl, smallimage, largeimage, t
-export function onRequestGet({ request }) {
-  const p = new URL(request.url).searchParams;
+// worker.js — Cloudflare Worker (mô hình Static Assets)
+// - File tĩnh (JSON/IPA/ảnh/html) phục vụ từ ./public
+// - Endpoint động /plist: sinh manifest.plist cài OTA (param thường, không mã hóa)
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (url.pathname === "/plist") {
+      if (request.method !== "GET") {
+        return new Response("Method Not Allowed", { status: 405 });
+      }
+      return handlePlist(url);
+    }
+    // Mọi path khác: phục vụ file tĩnh trong ./public
+    return env.ASSETS.fetch(request);
+  },
+};
+
+function handlePlist(url) {
+  const p = url.searchParams;
   const g = (k) => (p.get(k) || "").trim();
 
   const bundleid = g("bundleid");
@@ -12,13 +27,11 @@ export function onRequestGet({ request }) {
   const small    = g("smallimage");
   const large    = g("largeimage");
 
-  // Param bắt buộc
   if (!bundleid || !name || !fetchurl) {
     return new Response("Bad Request", { status: 400 });
   }
 
-  // (tuỳ chọn) Chặn link cũ quá 15 phút — hạn chế bị lưu lại & phát tán.
-  // KHÔNG bắt buộc vì check này không cứu quota; chống spam chính là Rate Limiting ở edge.
+  // Chặn link cũ quá 15 phút (không bắt buộc; chống spam chính là Rate Limiting ở edge)
   const t = parseInt(g("t"), 10);
   if (t && Math.abs(Date.now() / 1000 - t) > 900) {
     return new Response("Expired", { status: 403 });
@@ -28,12 +41,12 @@ export function onRequestGet({ request }) {
     "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;",
   }[c]));
 
-  const asset = (kind, url) => url
+  const asset = (kind, u) => u
     ? `                <dict>
                     <key>kind</key>
                     <string>${kind}</string>
                     <key>url</key>
-                    <string>${esc(url)}</string>
+                    <string>${esc(u)}</string>
                 </dict>`
     : "";
 

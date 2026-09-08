@@ -1,0 +1,9 @@
+{
+  "name": "zsign-pages",
+  "main": "worker.js",
+  "compatibility_date": "2026-09-08",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  }
+}
