@@ -1,0 +1,13 @@
+# Server PHP cũ — chạy trên zsign.app, KHÔNG deploy lên Pages (Pages serve .php thành text = lộ source + key)
+*.php
+.htaccess
+.user.ini
+
+# Cache/tool cục bộ
+.wrangler/
+node_modules/
+
+# Rác hệ thống
+.DS_Store
+**/.DS_Store
+Thumbs.db

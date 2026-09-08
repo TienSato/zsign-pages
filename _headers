@@ -1,0 +1,3 @@
+# Cloudflare Pages — cache ngắn cho JSON để cập nhật hiện ra nhanh
+/*.json
+  Cache-Control: public, max-age=60

@@ -1,0 +1,29 @@
+{
+  "enabled": true,
+  "notification": {
+    "id": "1232231342",
+    "title": "Phiên bản ZSIGN 1.4.4 đã có sẵn bản cập nhật -  Bỏ qua nếu đã cập nhật phiên bản 1.4.4",
+    "message": "Sửa lỗi không thể cài đặt ứng dụng trên một số phiên bản iOS và mẫu máy",
+    "type": "update",
+    "priority": "high",
+    "buttons": [
+      {
+        "title": "Cập nhật ngay",
+        "style": "primary",
+        "action": {
+          "type": "url",
+          "value": "https://zsign.app"
+        }
+      },
+      {
+        "title": "Để sau",
+        "style": "cancel",
+        "action": {
+          "type": "dismiss"
+        }
+      }
+    ],
+    "dismissible": false,
+    "showOnce": true
+  }
+}
