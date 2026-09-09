@@ -1,140 +1,227 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Zsign - Fast Sign iOS</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
-        
-        .logo {
-            font-size: 3.5rem;
-            font-weight: 700;
-            color: #2563eb;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
-        }
-        
-        .subtitle {
-            font-size: 1.25rem;
-            color: #6b7280;
-            margin-bottom: 48px;
-            font-weight: 400;
-        }
-        
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px 32px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-        }
-        
-        .btn-download {
-            background: #2563eb;
-            color: white;
-        }
-        
-        .btn-download:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
-        }
-        
-        .btn-telegram {
-            background: white;
-            color: #0088cc;
-            border-color: #0088cc;
-        }
-        
-        .btn-telegram:hover {
-            background: #0088cc;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0, 136, 204, 0.2);
-        }
-        
-        .icon {
-            width: 20px;
-            height: 20px;
-        }
-        
-        @media (max-width: 640px) {
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-                margin-bottom: 32px;
-            }
-            
-            .btn {
-                padding: 14px 24px;
-                font-size: 0.95rem;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zsignapp — Ký &amp; cài IPA ngay trên iPhone</title>
+<meta name="description" content="zsignapp ký ứng dụng bằng chứng chỉ của bạn và cài thẳng lên iPhone.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000; --fg:#f5f5f7; --dim:#a1a1a8; --line:rgba(255,255,255,.12);
+  --glass:rgba(255,255,255,.06);
+  --silver:linear-gradient(175deg,#fff 0%,#e3e3e8 32%,#9a9aa3 62%,#f4f4f7 100%);
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+  background:var(--bg); color:var(--fg); min-height:100vh;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(60% 42% at 50% 30%, rgba(190,195,210,.16), transparent 70%),
+    radial-gradient(38% 28% at 84% 74%, rgba(120,130,155,.10), transparent 70%);
+}
+body::after{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.28;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(circle at 50% 34%,#000 0%,transparent 72%);
+          mask-image:radial-gradient(circle at 50% 34%,#000 0%,transparent 72%);
+}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 22px}
+
+nav{display:flex;align-items:center;gap:12px;padding:20px 0 8px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:15px;letter-spacing:-.2px;white-space:nowrap}
+.mark{width:26px;height:26px;border-radius:7px;background:var(--silver);display:grid;place-items:center;
+  color:#0a0a0c;font-weight:800;font-size:14px;box-shadow:0 2px 10px rgba(255,255,255,.14)}
+.brand small{color:var(--dim);font-weight:450}
+.navlinks{display:flex;gap:8px;margin:0 auto}
+.pill{padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--glass);
+  color:var(--fg);text-decoration:none;font-size:13.5px;transition:.18s;backdrop-filter:blur(10px)}
+.pill:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22)}
+.lang{display:flex;padding:3px;border-radius:999px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px)}
+.lang button{border:0;background:transparent;color:var(--dim);font:inherit;font-size:12.5px;font-weight:600;
+  padding:6px 12px;border-radius:999px;cursor:pointer;transition:.18s;letter-spacing:.3px}
+.lang button.on{background:rgba(255,255,255,.14);color:var(--fg)}
+.cta-top{padding:9px 18px;border-radius:999px;background:#f5f5f7;color:#0a0a0c;
+  text-decoration:none;font-size:13.5px;font-weight:600;transition:.18s;white-space:nowrap}
+.cta-top:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(255,255,255,.18)}
+
+header{text-align:center;padding:56px 0 0}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;
+  border:1px solid var(--line);background:var(--glass);font-size:13px;color:#d8d8de;backdrop-filter:blur(10px)}
+.badge i{font-style:normal;background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{margin:22px auto 0;font-size:clamp(34px,6.2vw,64px);line-height:1.08;letter-spacing:-2px;font-weight:700;max-width:16ch}
+h1 .sil{background:var(--silver);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin:20px auto 0;max-width:58ch;color:var(--dim);font-size:clamp(14.5px,1.7vw,17px);line-height:1.65}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border-radius:13px;
+  text-decoration:none;font-size:15px;font-weight:600;transition:.18s;border:1px solid transparent}
+.btn-primary{background:#f5f5f7;color:#0a0a0c}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,255,255,.2)}
+.btn-ghost{background:var(--glass);color:var(--fg);border-color:var(--line);backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.btn svg{width:17px;height:17px;flex:none}
+
+.window{
+  margin:60px auto 0;max-width:880px;border-radius:14px;overflow:hidden;
+  background:linear-gradient(180deg,#131316,#0b0b0d);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 40px 90px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.04) inset,0 1px 0 rgba(255,255,255,.14) inset;
+}
+.titlebar{display:flex;align-items:center;gap:9px;padding:11px 14px;
+  background:linear-gradient(180deg,#2a2a2f,#1c1c20);border-bottom:1px solid rgba(0,0,0,.6)}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%;display:block}
+.dots .r{background:#ff5f57}.dots .y{background:#febc2e}.dots .g{background:#28c840}
+.wtitle{flex:1;text-align:center;font-size:12.5px;color:#9a9aa2;font-weight:550;margin-right:38px}
+.wbody{padding:16px}
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.seg{padding:6px 13px;border-radius:8px;font-size:12.5px;color:#a1a1a8;border:1px solid transparent}
+.seg.on{background:rgba(255,255,255,.10);color:#f5f5f7;border-color:var(--line)}
+.chip{margin-left:auto;padding:6px 12px;border-radius:999px;font-size:11.5px;color:#7ee29a;
+  background:rgba(40,200,64,.10);border:1px solid rgba(40,200,64,.28)}
+.row{display:flex;align-items:center;gap:13px;padding:11px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.row:last-child{border-bottom:0}
+.ic{width:42px;height:42px;border-radius:11px;flex:none;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.i1{background:linear-gradient(140deg,#5b8cff,#2f4fd8)}
+.i2{background:linear-gradient(140deg,#3ad29f,#12876a)}
+.i3{background:linear-gradient(140deg,#ff8a5b,#d94f2a)}
+.i4{background:var(--silver)}
+.meta{min-width:0;flex:1}
+.meta b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.2px}
+.meta span{display:block;font-size:11.5px;color:#82828a;margin-top:3px}
+.act{padding:6px 15px;border-radius:999px;font-size:12px;font-weight:600;flex:none;
+  background:rgba(120,160,255,.16);color:#9db8ff;border:1px solid rgba(120,160,255,.28)}
+.act.done{background:rgba(255,255,255,.07);color:#8b8b93;border-color:var(--line)}
+
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:64px 0 72px}
+.feat{padding:22px 20px;border-radius:14px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(10px)}
+.feat h3{font-size:15px;font-weight:600;letter-spacing:-.2px;margin-bottom:8px}
+.feat p{font-size:12.8px;color:var(--dim);line-height:1.65}
+footer{border-top:1px solid var(--line);padding:22px 0 40px;text-align:center;color:#6f6f77;font-size:12.5px}
+footer a{color:#a1a1a8;text-decoration:none}
+footer a:hover{color:#f5f5f7}
+
+@media(max-width:860px){
+  .navlinks{display:none}
+  nav{justify-content:space-between;gap:8px}
+  .feats{grid-template-columns:1fr}
+  header{padding-top:38px}
+  .window{margin-top:44px}
+}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="logo">Zsign</h1>
-        <p class="subtitle">Fast Sign iOS</p>
-        
-        <div class="button-group">
-            <a href="https://zsign.app/Zsign_1.4.5.ipa" class="btn btn-download">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                Download Zsign 1.4.4
-            </a>
-            
-            <a href="https://t.me/zsignapp" class="btn btn-telegram" target="_blank">
-                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                </svg>
-                Telegram Channel
-            </a>
-        </div>
+<div class="wrap">
+
+  <nav>
+    <div class="brand"><span class="mark">z</span>zsignapp<small>&nbsp;· zsign.app</small></div>
+    <div class="navlinks">
+      <a class="pill" href="#features" data-en="Features">Tính năng</a>
+      <a class="pill" href="https://t.me/zsignapp" target="_blank" rel="noopener" data-en="Telegram">Telegram</a>
     </div>
+    <div class="lang">
+      <button type="button" data-lang="vi">VI</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <a class="cta-top" href="/Zsign_1.6.ipa" data-en="Download">Tải xuống</a>
+  </nav>
+
+  <header>
+    <span class="badge"><i>✦</i> zsignapp v1.6.3</span>
+    <h1><span class="sil" data-en="Sign &amp; install IPAs">Ký &amp; cài IPA</span><span data-en=" right on your iPhone."> ngay trên iPhone.</span></h1>
+    <p class="sub" data-en="Sign apps with your own certificate and install them straight to your device — no computer needed. Supports tweaks, a workspace that updates over the installed build, and a detailed signing log.">Ký ứng dụng bằng chứng chỉ của chính bạn rồi cài thẳng lên máy — không cần máy tính. Hỗ trợ tweak, workspace cập nhật đè lên bản đã cài, và nhật ký ký chi tiết.</p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="/zSign_1.5.ipa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg><span data-en="Download zsignapp 1.5">Tải zsignapp 1.5</span>
+      </a>
+      <a class="btn btn-ghost" href="https://t.me/zsignapp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg><span data-en="Telegram Channel">Kênh Telegram</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="window" aria-label="zsignapp preview">
+    <div class="titlebar">
+      <span class="dots"><i class="r"></i><i class="y"></i><i class="g"></i></span>
+      <span class="wtitle">zsignapp</span>
+    </div>
+    <div class="wbody">
+      <div class="toolbar">
+        <span class="seg on" data-en="Apps">Ứng dụng</span>
+        <span class="seg" data-en="Signed">Đã ký</span>
+        <span class="seg" data-en="Store">Cửa hàng</span>
+        <span class="chip" data-en="● Certificate valid">● Chứng chỉ hợp lệ</span>
+      </div>
+      <div class="row"><span class="ic i1"></span><span class="meta"><b>Spotify</b><span data-en="v8.9.24 · 142 MB · 3 tweaks">v8.9.24 · 142 MB · 3 tweak</span></span><span class="act" data-en="Sign">Ký</span></div>
+      <div class="row"><span class="ic i2"></span><span class="meta"><b>YouTube</b><span data-en="v19.16.3 · 128 MB · 5 tweaks">v19.16.3 · 128 MB · 5 tweak</span></span><span class="act" data-en="Sign">Ký</span></div>
+      <div class="row"><span class="ic i3"></span><span class="meta"><b>Instagram</b><span>v334.0 · 216 MB</span></span><span class="act done" data-en="Installed">Đã cài</span></div>
+      <div class="row"><span class="ic i4"></span><span class="meta"><b>zsignapp</b><span>v1.6.3 · 13 MB</span></span><span class="act done" data-en="Installed">Đã cài</span></div>
+    </div>
+  </section>
+
+  <section class="feats" id="features">
+    <div class="feat">
+      <h3 data-en="Parallel signing &amp; compression">Ký &amp; nén song song</h3>
+      <p data-en="The zsign core runs multi-threaded and compresses IPAs in parallel — cutting the time to sign large apps considerably.">Lõi zsign chạy đa luồng, nén IPA song song — rút ngắn đáng kể thời gian ký các app lớn.</p>
+    </div>
+    <div class="feat">
+      <h3 data-en="Tweaks &amp; Workspace">Tweak &amp; Workspace</h3>
+      <p data-en="Inject dylibs and .deb files, keep the source IPA as a project, then re-sign and update over the installed build without losing app data.">Tiêm dylib/.deb, giữ IPA gốc thành project, ký lại và cập nhật đè lên bản đã cài mà không mất dữ liệu.</p>
+    </div>
+    <div class="feat">
+      <h3 data-en="Certificates stay on device">Chứng chỉ nằm trên máy</h3>
+      <p data-en="Your certificate and keys are stored locally on your device and are never uploaded to any server.">Chứng chỉ và khoá lưu cục bộ trong thiết bị của bạn, không gửi lên máy chủ nào.</p>
+    </div>
+  </section>
+
+  <footer>
+    zsignapp · <a href="https://t.me/zsignapp" target="_blank" rel="noopener">Telegram</a>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var META = {
+    vi: { title: "zsignapp — Ký & cài IPA ngay trên iPhone",
+          desc: "zsignapp ký ứng dụng bằng chứng chỉ của bạn và cài thẳng lên iPhone." },
+    en: { title: "zsignapp — Sign & install IPAs on your iPhone",
+          desc: "zsignapp signs apps with your own certificate and installs them straight to your iPhone." }
+  };
+  var nodes = document.querySelectorAll("[data-en]");
+
+  function apply(lang) {
+    nodes.forEach(function (el) {
+      if (el.dataset.vi === undefined) el.dataset.vi = el.textContent;
+      el.textContent = (lang === "en") ? el.dataset.en : el.dataset.vi;
+    });
+    document.documentElement.lang = lang;
+    document.title = META[lang].title;
+    var d = document.querySelector('meta[name="description"]');
+    if (d) d.setAttribute("content", META[lang].desc);
+    document.querySelectorAll(".lang button").forEach(function (b) {
+      b.classList.toggle("on", b.dataset.lang === lang);
+    });
+    try { localStorage.setItem("zs.lang", lang); } catch (e) {}
+  }
+
+  var saved = null;
+  try { saved = localStorage.getItem("zs.lang"); } catch (e) {}
+  var auto = String(navigator.language || "").toLowerCase().indexOf("vi") === 0 ? "vi" : "en";
+  apply(saved === "vi" || saved === "en" ? saved : auto);
+
+  document.querySelectorAll(".lang button").forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.dataset.lang); });
+  });
+})();
+</script>
 </body>
 </html>
